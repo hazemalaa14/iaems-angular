@@ -1,0 +1,50 @@
+<div class="language-switcher">
+  <button (click)="changeLanguage('en')" class="lang-btn">ENG</button>
+  <span class="divider">|</span>
+  <button (click)="changeLanguage('ar')" class="lang-btn">AR</button>
+</div>
+
+<div class="faq-container">
+  <div class="header">
+    <h1>FAQ</h1>
+    <button class="ask-btn" (click)="toggleUserForm()">
+      {{ showUserForm ? 'Cancel' : 'Ask a Question' }}
+    </button>
+  </div>
+
+  <!-- User Question Form -->
+  <div class="user-form" *ngIf="showUserForm">
+    <textarea 
+      [(ngModel)]="newUserQuestion" 
+      placeholder="Type your question here..."
+      class="question-input"
+      rows="3"
+    ></textarea>
+    <button 
+      class="submit-btn" 
+      (click)="submitUserQuestion()"
+      [disabled]="!newUserQuestion.trim()"
+    >
+      Submit Question
+    </button>
+  </div>
+  
+  <!-- FAQ Cards -->
+  <div class="faq-card" 
+       *ngFor="let faq of faqs; let i = index"
+       [class.active]="activeIndex === i" 
+       [class.pending]="faq.isPending"
+       (click)="toggleFAQ(i)">
+    <div class="card-inner">
+      <div class="faq-question">
+        <span>{{faq.question}}</span>
+        <div class="pending-badge" *ngIf="faq.isPending">Pending</div>
+      </div>
+      <div class="faq-answer">
+        <p [innerHTML]="faq.answer"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="google_translate_element" style="display: none;"></div>
